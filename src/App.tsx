@@ -1,56 +1,68 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import React from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
+import { Navigate, Route, Routes } from "react-router-dom";
+import LoginComponent from "./components/login/Login";
+import RegisterComponent from "./components/register/Register";
+import UserPageComponent from "./components/user/UserPage";
+import AdminPageComponent from "./components/admin/AdminPage";
+import ManageQuestionComponent from "./components/admin/manage-question/ManageQuestion";
+import ManageUserComponent from "./components/admin/manage-user/ManageUser";
+import Guard from "./utils/PrivateRoute";
+import UserAddFormComponent from "./components/admin/manage-user/UserAddForm";
+import UserEditFormComponent from "./components/admin/manage-user/UserEditForm";
+import UserDetailComponent from "./components/admin/manage-user/UserDetail";
+import { Spin, Alert } from "antd";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+    <div>
+      <Routes>
+        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/login" element={<LoginComponent />} />
+        <Route path="/register" element={<RegisterComponent />} />
+        <Route element={<Guard />}>
+          <Route path="/user" element={<UserPageComponent />} />
+          <Route path="/admin" element={<AdminPageComponent />}>
+            <Route
+              path="/admin"
+              element={<Navigate to="/admin/question-manage" replace />}
+            />
+            <Route
+              path="/admin/question-manage"
+              element={<ManageQuestionComponent />}
+            />
+
+            <Route path="/admin/user-manage" element={<ManageUserComponent />}>
+              <Route
+                path="/admin/user-manage/add-form"
+                element={<UserAddFormComponent />}
+              />
+
+              <Route
+                path="/admin/user-manage/edit-form"
+                element={<UserEditFormComponent />}
+              />
+
+              <Route
+                path="/admin/user-manage/detail"
+                element={<UserDetailComponent />}
+              />
+            </Route>
+          </Route>
+        </Route>
+        {/* <Redirect exact from="**" to="/user" /> */}
+      </Routes>
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+      />
     </div>
   );
 }

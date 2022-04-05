@@ -1,0 +1,30 @@
+.my-header-question {
+  top: 0;
+  background-color: rgb(8, 180, 8);
+  padding: 15px 50px;
+  font-size: 15px;
+  color: white;
+}
+.number-question {
+  font-weight: bold;
+}
+.user-name {
+  float: right;
+  font-style: italic;
+}
+.variant {
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.variant:after {
+  background: #8bd3dd;
+  color: #001858;
+  visibility: visible;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
