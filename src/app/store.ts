@@ -4,6 +4,8 @@ import createSagaMiddleware from "redux-saga";
 import rootSaga from "./rootSaga";
 import authReducer from "../features/auth/authSlice";
 import questionReducer from "../features/user/questionSlice";
+import adminQuestionReducer from "../features/admin/manage-question/adminQuestionSlice";
+import adminUserReducer from "../features/admin/manage-user/adminUserSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -12,6 +14,8 @@ export const store = configureStore({
     counter: counterReducer,
     auth: authReducer,
     question: questionReducer,
+    adminQuestion: adminQuestionReducer,
+    adminUser: adminUserReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),

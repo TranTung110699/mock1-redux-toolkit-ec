@@ -3,21 +3,20 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { useAppDispatch } from "../../../app/hooks";
-import { adminUserAction } from "../../../features/admin/manage-user/adminUserSlice";
-import { UserCreate } from "../../../models/User";
+import { adminQuestionAction } from "../../../features/admin/manage-question/adminQuestionSlice";
+import { AdminQuestion } from "../../../models/Question";
 // import "../admin.scss";
 
-const UserAddFormComponent = () => {
+const QuestionAddFormComponent = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const onFinish = (values: any) => {
-    console.log("testCreatUser", values);
-    const user: UserCreate = {
+    const question: AdminQuestion = {
       ...values,
-      role: values.role,
+      correctanswer: values[values.correctanswer],
     };
-    dispatch(adminUserAction.postAdminUser(user));
+    dispatch(adminQuestionAction.postAdminQuestion(question));
 
     Swal.fire({
       html: "Creat...",
@@ -26,7 +25,7 @@ const UserAddFormComponent = () => {
       showConfirmButton: false,
     });
     setTimeout(() => {
-      dispatch(adminUserAction.getAdminUser({ page: 1 }));
+      dispatch(adminQuestionAction.getAdminQuestion({ page: 1 }));
       form.resetFields();
     }, 2000);
   };
@@ -36,7 +35,7 @@ const UserAddFormComponent = () => {
   return (
     <div>
       <Row justify="center">
-        <h1>Add User</h1>
+        <h1>Add Question</h1>
       </Row>
       <Form
         name="basic"
@@ -47,7 +46,7 @@ const UserAddFormComponent = () => {
           span: 15,
         }}
         initialValues={{
-          role: "user",
+          correctanswer: "answer1",
         }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
@@ -55,12 +54,25 @@ const UserAddFormComponent = () => {
         form={form}
       >
         <Form.Item
-          label="Username"
-          name="username"
+          label="Question"
+          name="question"
           rules={[
             {
               required: true,
-              message: "Please input your Username!",
+              message: "Please input your question!",
+            },
+          ]}
+        >
+          <Input.TextArea />
+        </Form.Item>
+
+        <Form.Item
+          label="Answer 1"
+          name="answer1"
+          rules={[
+            {
+              required: true,
+              message: "Please input your Answer 1!",
             },
           ]}
         >
@@ -68,12 +80,12 @@ const UserAddFormComponent = () => {
         </Form.Item>
 
         <Form.Item
-          label="Password"
-          name="password"
+          label="Answer 2"
+          name="answer2"
           rules={[
             {
               required: true,
-              message: "Please input your Password!",
+              message: "Please input your Answer 2!",
             },
           ]}
         >
@@ -81,16 +93,12 @@ const UserAddFormComponent = () => {
         </Form.Item>
 
         <Form.Item
-          label="Email"
-          name="email"
+          label="Answer 3"
+          name="answer3"
           rules={[
             {
-              type: "email",
-              message: "The input is not valid E-mail!",
-            },
-            {
               required: true,
-              message: "Please input your E-mail!",
+              message: "Please input your Answer 3!",
             },
           ]}
         >
@@ -98,13 +106,28 @@ const UserAddFormComponent = () => {
         </Form.Item>
 
         <Form.Item
-          name="role"
-          label="Role"
-          rules={[{ required: true, message: "Please pick a role!" }]}
+          label="Answer 4"
+          name="answer4"
+          rules={[
+            {
+              required: true,
+              message: "Please input your Answer 4!",
+            },
+          ]}
+        >
+          <Input />
+        </Form.Item>
+
+        <Form.Item
+          name="correctanswer"
+          label="Correct Answer"
+          rules={[{ required: true, message: "Please pick an answer!" }]}
         >
           <Radio.Group>
-            <Radio value="user">User</Radio>
-            <Radio value="admin">Admin</Radio>
+            <Radio value="answer1">Answer 1</Radio>
+            <Radio value="answer2">Answer 2</Radio>
+            <Radio value="answer3">Answer 3</Radio>
+            <Radio value="answer4">Answer 4</Radio>
           </Radio.Group>
         </Form.Item>
 
@@ -116,7 +139,7 @@ const UserAddFormComponent = () => {
         >
           <Space>
             <Button type="primary" htmlType="submit">
-              Add User
+              Submit
             </Button>
           </Space>
         </Form.Item>
@@ -125,4 +148,4 @@ const UserAddFormComponent = () => {
   );
 };
 
-export default UserAddFormComponent;
+export default QuestionAddFormComponent;

@@ -39,6 +39,14 @@ export interface AdminQuestionOutput {
   id: string;
 }
 
+export interface AdminQuestionOutputModel {
+  results: AdminQuestionOutput[];
+  page: number;
+  limit: number;
+  totalPages: number;
+  totalResults: number;
+}
+
 //post answer
 export interface Answer {
   id: string;

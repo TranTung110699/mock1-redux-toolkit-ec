@@ -123,7 +123,6 @@ const RegisterComponent = () => {
           </Button>
         </Form.Item>
       </Form>
-      register
     </div>
   );
 };

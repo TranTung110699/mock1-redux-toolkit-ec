@@ -33,22 +33,19 @@ function App() {
               element={<ManageQuestionComponent />}
             />
 
-            <Route path="/admin/user-manage" element={<ManageUserComponent />}>
-              <Route
-                path="/admin/user-manage/add-form"
-                element={<UserAddFormComponent />}
-              />
+            <Route
+              path="/admin/question-manage/:id"
+              element={<ManageQuestionComponent />}
+            />
 
-              <Route
-                path="/admin/user-manage/edit-form"
-                element={<UserEditFormComponent />}
-              />
-
-              <Route
-                path="/admin/user-manage/detail"
-                element={<UserDetailComponent />}
-              />
-            </Route>
+            <Route
+              path="/admin/user-manage"
+              element={<ManageUserComponent />}
+            />
+            <Route
+              path="/admin/user-manage/:id"
+              element={<ManageUserComponent />}
+            />
           </Route>
         </Route>
         {/* <Redirect exact from="**" to="/user" /> */}
@@ -56,7 +53,7 @@ function App() {
       <ToastContainer
         position="top-right"
         autoClose={1500}
-        hideProgressBar={false}
+        hideProgressBar={true}
         newestOnTop={false}
         closeOnClick
         rtl={false}

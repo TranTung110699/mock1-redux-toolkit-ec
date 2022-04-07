@@ -29,16 +29,11 @@ const QuestionComponent = () => {
     console.log("asw", answers.current);
   };
 
-  // const auth = useAppSelector((state) => state.auth);
   const questionList = useAppSelector(
     (state) => state.question.questions.results
   );
 
   const correctResult = useAppSelector((state) => state.question.result);
-
-  // const questionListTotal = useAppSelector(
-  //   (state) => state.question.questions.totalResults
-  // );
 
   const dispatch = useAppDispatch();
   useEffect(() => {
@@ -86,6 +81,7 @@ const QuestionComponent = () => {
     });
     setTimeout(() => {
       setIsSubmitVisible(true);
+      console.log("cr", correctResult);
     }, 2000);
   };
 
@@ -192,44 +188,7 @@ const QuestionComponent = () => {
         closable={false}
         footer={null}
       >
-        {/* <Row>
-          <Col span={8}>
-            {answers.current.map((myAnswer) =>
-              questions.filter((allQuestion) =>
-                myAnswer.id === allQuestion.id ? (
-                  <div>{allQuestion.question}</div>
-                ) : null
-              )
-            )}
-          </Col>
-          <Col span={8}>
-            {answers.current.map((myAnswer) =>
-              questions.filter((allQuestion) =>
-                myAnswer.id === allQuestion.id ? (
-                  <div>{myAnswer.correctanswer}</div>
-                ) : null
-              )
-            )}
-          </Col>
-          <Col span={8}>
-            {answers.current.map((myAnswer) =>
-              correctResult.filter((correctAnswer: Result) =>
-                myAnswer.id === correctAnswer.id ? (
-                  <div>{correctAnswer.correctanswer}</div>
-                ) : null
-              )
-            )}
-          </Col>
-        </Row> */}
-        {/* <div>
-          Your Score:{" "}
-          {
-            correctResult.filter(
-              (correctAnswer: Result) => correctAnswer.result === true
-            ).length
-          }{" "}
-          / {questionList}
-        </div> */}
+        <ResultComponent answers={answers.current} questions={questions} />
         <Button type="primary" onClick={logout}>
           Logout{" "}
         </Button>
@@ -238,4 +197,55 @@ const QuestionComponent = () => {
   );
 };
 
+interface QuestionProps {
+  answers: any;
+  questions: Question[];
+}
+
+const ResultComponent = ({ answers, questions }: QuestionProps) => {
+  const correctResult = useAppSelector((state) => state.question.result);
+  console.log("crs", correctResult);
+  console.log("ques", questions);
+  console.log("ans", answers);
+  return (
+    <Row>
+      <Col span={8}>
+        <b>Questions</b>
+        {answers.map((myAnswer: any) => (
+          <div>
+            {
+              questions.find((allQuestion) => allQuestion.id === myAnswer.id)
+                ?.question
+            }
+          </div>
+        ))}
+      </Col>
+      <Col span={8}>
+        <b>Your Answer:</b>
+        {answers.map((myAnswer: any) => (
+          <div>{myAnswer.correctanswer}</div>
+        ))}
+      </Col>
+      <Col span={8}>
+        <b>Correct Answer:</b>
+        {correctResult.map((correctAnswer: Result) => (
+          <div
+            style={{ color: correctAnswer.result === true ? "green" : "red" }}
+          >
+            {correctAnswer.correctanswer}
+          </div>
+        ))}
+      </Col>
+      <b>
+        Your Score:{" "}
+        {
+          correctResult.filter(
+            (correctAnswer: Result) => correctAnswer.result === true
+          ).length
+        }{" "}
+        / {questions.length}
+      </b>
+    </Row>
+  );
+};
 export default QuestionComponent;

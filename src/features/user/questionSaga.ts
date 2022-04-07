@@ -24,15 +24,16 @@ export function* handleGetQuestion(action: PayloadAction<Page>) {
   } catch (error) {}
 }
 
-export function* hanleSubmit(action: PayloadAction<Array<Answer>>) {
+export function* hanleSubmit(action: PayloadAction<Answer[]>) {
   try {
-    const res: Array<Result> = yield call(questionApi.submit, action.payload);
+    const res: Result[] = yield call(questionApi.submit, action.payload);
     yield put(questionAction.submitSuccess(res));
-    toast.success("Login Success");
-    console.log(res);
+    toast.success("Quiz Complete");
+    console.log("crSaga", res);
   } catch (error) {}
 }
 
 export default function* questionSaga() {
   yield takeLatest(questionAction.getQuestion.type, handleGetQuestion);
+  yield takeLatest(questionAction.submit.type, hanleSubmit);
 }

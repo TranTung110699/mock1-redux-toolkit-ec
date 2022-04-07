@@ -50,6 +50,23 @@ export interface UserModel {
   };
 }
 
+export interface ManageUser {
+  score: number;
+  role: string;
+  isEmailVerified: boolean;
+  avatar: string;
+  username: string;
+  email: string;
+  id: string;
+}
+export interface UserAdminModel {
+  results: ManageUser[];
+  page: number;
+  limit: number;
+  totalPages: number;
+  totalResults: number;
+}
+
 //Admin manage User
 export interface UserCreate {
   username: string;
