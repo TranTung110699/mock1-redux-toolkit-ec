@@ -12,7 +12,7 @@ interface patchUserType {
   userId: string;
 }
 
-const UserEditFormComponent = () => {
+const UserEditFormComponent = (props: any) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: any }>();
@@ -46,7 +46,7 @@ const UserEditFormComponent = () => {
     });
     setTimeout(() => {
       navigate("/admin/user-manage");
-      dispatch(adminUserAction.getAdminUser({ page: 1 }));
+      dispatch(adminUserAction.getAdminUser({ page: props.dataFromParent }));
     }, 2000);
   };
 

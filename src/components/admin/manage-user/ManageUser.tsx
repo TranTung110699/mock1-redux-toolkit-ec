@@ -9,6 +9,12 @@ import UserListComponent from "./UserList";
 
 const ManageUserComponent = () => {
   const { id } = useParams();
+  const [message, setMessage] = useState(1);
+  console.log("pageCurrent", message);
+
+  const callbackFunction = (childData: number) => {
+    setMessage(childData);
+  };
   return (
     <div>
       <div style={{ textAlign: "center", fontSize: "35px" }}>
@@ -16,10 +22,14 @@ const ManageUserComponent = () => {
       </div>
       <Row>
         <Col span={14}>
-          <UserListComponent />
+          <UserListComponent parentCallback={callbackFunction} />
         </Col>
         <Col span={10}>
-          {id ? <UserEditFormComponent /> : <UserAddFormComponent />}
+          {id ? (
+            <UserEditFormComponent dataFromParent={message} />
+          ) : (
+            <UserAddFormComponent />
+          )}
         </Col>
       </Row>
     </div>

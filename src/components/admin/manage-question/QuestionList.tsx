@@ -19,7 +19,7 @@ import { questionApi } from "../../../api/questionApi";
 import { AdminQuestion, AdminQuestionOutput } from "../../../models/Question";
 import Swal from "sweetalert2";
 
-const QuestionListComponent = () => {
+const QuestionListComponent = (props: any) => {
   const { id } = useParams();
   const [myPage, setMypage] = useState(1);
   const navigate = useNavigate();
@@ -36,7 +36,12 @@ const QuestionListComponent = () => {
     dispatch(adminQuestionAction.getAdminQuestion({ page: myPage }));
   }, [dispatch]);
 
+  const sendPageData = () => {
+    props.parentCallback(myPage);
+  };
+
   const clickDetail = (idQuestion: string) => {
+    sendPageData();
     window.scrollTo(0, 0);
     navigate("/admin/question-manage/" + idQuestion);
   };

@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { adminUserAction } from "../../../features/admin/manage-user/adminUserSlice";
 import { ManageUser } from "../../../models/User";
 
-const UserListComponent = () => {
+const UserListComponent = (props: any) => {
   const { id } = useParams();
   const [myPage, setMypage] = useState(1);
   const navigate = useNavigate();
@@ -18,11 +18,17 @@ const UserListComponent = () => {
   const myTotalPages = useAppSelector(
     (state) => state.adminUser.users.totalPages
   );
+
+  const sendPageData = () => {
+    props.parentCallback(myPage);
+  };
+
   useEffect(() => {
     dispatch(adminUserAction.getAdminUser({ page: myPage }));
   }, [dispatch]);
 
   const clickDetail = (idQuestion: string) => {
+    sendPageData();
     window.scrollTo(0, 0);
     navigate("/admin/user-manage/" + idQuestion);
   };

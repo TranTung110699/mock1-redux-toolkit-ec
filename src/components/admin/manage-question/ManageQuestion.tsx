@@ -8,6 +8,12 @@ import QuestionAddFormComponent from "./QuestionAddForm";
 
 const ManageQuestionComponent = () => {
   const { id } = useParams();
+  const [message, setMessage] = useState(1);
+  console.log("pageCurrent", message);
+
+  const callbackFunction = (childData: number) => {
+    setMessage(childData);
+  };
   return (
     <div>
       <div style={{ textAlign: "center", fontSize: "35px" }}>
@@ -15,10 +21,14 @@ const ManageQuestionComponent = () => {
       </div>
       <Row>
         <Col span={16}>
-          <QuestionListComponent />
+          <QuestionListComponent parentCallback={callbackFunction} />
         </Col>
         <Col span={8}>
-          {id ? <QuestionFormComponent /> : <QuestionAddFormComponent />}
+          {id ? (
+            <QuestionFormComponent dataFromParent={message} />
+          ) : (
+            <QuestionAddFormComponent />
+          )}
         </Col>
       </Row>
     </div>

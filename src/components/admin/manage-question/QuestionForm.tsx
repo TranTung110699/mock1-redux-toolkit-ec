@@ -12,7 +12,7 @@ interface patchQuestionType {
   questionId: string;
 }
 
-const QuestionFormComponent = () => {
+const QuestionFormComponent = (props: any) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: any }>();
@@ -48,7 +48,9 @@ const QuestionFormComponent = () => {
     });
     setTimeout(() => {
       navigate("/admin/question-manage");
-      dispatch(adminQuestionAction.getAdminQuestion({ page: 1 }));
+      dispatch(
+        adminQuestionAction.getAdminQuestion({ page: props.dataFromParent })
+      );
     }, 2000);
   };
 
@@ -160,21 +162,13 @@ const QuestionFormComponent = () => {
             rules={[{ required: true, message: "Please pick an answer!" }]}
           >
             <Radio.Group>
-              <Radio value={questionDetail.answer1}>
-                {questionDetail.answer1}
-              </Radio>
+              <Radio value={questionDetail.answer1}>Answer1</Radio>
               <br />
-              <Radio value={questionDetail.answer2}>
-                {questionDetail.answer2}
-              </Radio>
+              <Radio value={questionDetail.answer2}>Answer2</Radio>
               <br />
-              <Radio value={questionDetail.answer3}>
-                {questionDetail.answer3}
-              </Radio>
+              <Radio value={questionDetail.answer3}>Answer3</Radio>
               <br />
-              <Radio value={questionDetail.answer4}>
-                {questionDetail.answer4}
-              </Radio>
+              <Radio value={questionDetail.answer4}>Answer4</Radio>
             </Radio.Group>
           </Form.Item>
 

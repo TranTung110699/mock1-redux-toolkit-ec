@@ -28,11 +28,6 @@ function* hanleLogin(action: PayloadAction<UserLogin>) {
     localStorage.setItem("current_user", res.user.username);
     localStorage.setItem("role", res.user.role);
     console.log(res);
-    // if (res.user.role === "admin") {
-    //   yield put(push("/admin"));
-    // } else {
-    //   yield put(push("/user"));
-    // }
   } catch (error) {
     yield put(authAction.loginFaile());
     toast.error("Username or password incorrect");
@@ -41,7 +36,7 @@ function* hanleLogin(action: PayloadAction<UserLogin>) {
 export function* handleSignUp(action: PayloadAction<UserRegister>) {
   try {
     const res: UserModel = yield call(authApi.signUp, action.payload);
-    yield put(authAction.loginSuccess(res));
+    yield put(authAction.signUpSuccess(res));
     toast.success("Register success");
     localStorage.setItem("access_token", res.tokens.access.token);
     localStorage.setItem("access_expires", res.tokens.access.expires);
@@ -50,11 +45,6 @@ export function* handleSignUp(action: PayloadAction<UserRegister>) {
     localStorage.setItem("current_user", res.user.username);
     localStorage.setItem("role", res.user.role);
     console.log(res);
-    // if (res.user.role === "admin") {
-    //   yield put(push("/admin"));
-    // } else {
-    //   yield put(push("/user"));
-    // }
   } catch (error) {
     yield put(authAction.loginFaile());
     const err = error as AxiosError;
@@ -69,7 +59,7 @@ export function* handleRefresh(action: PayloadAction<UserRefreshToken>) {
       authApi.refreshToken,
       action.payload
     );
-    yield put(authAction.refresh(res));
+    yield put(authAction.refreshSuccess(res));
     toast.success("RefreshToken Success");
 
     localStorage.setItem("access_token", res.access.token);

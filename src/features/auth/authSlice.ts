@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { handleSignUp } from "./authSaga";
-import { UserLogout } from "../../models/User";
+import { UserLogout, UserRefreshToken } from "../../models/User";
 import {
   UserLogin,
   UserRegister,
@@ -19,7 +19,16 @@ const initialState: authType = {
   isLogged: false,
   isLogging: false,
   userState: undefined,
-  reToken: undefined,
+  reToken: {
+    access: {
+      token: "",
+      expires: "",
+    },
+    refresh: {
+      token: "",
+      expires: "",
+    },
+  },
 };
 
 const authSlice = createSlice({
@@ -45,6 +54,11 @@ const authSlice = createSlice({
     signUp(state, action: PayloadAction<UserRegister>) {
       state.isLogging = true;
     },
+    signUpSuccess(state, action: PayloadAction<UserModel>) {
+      state.userState = action.payload;
+      state.isLogged = true;
+      state.isLogging = false;
+    },
     signOut(state, action: PayloadAction<UserLogout>) {
       state.isLogging = true;
     },
@@ -52,7 +66,10 @@ const authSlice = createSlice({
       state.isLogged = false;
       state.userState = undefined;
     },
-    refresh(state, action: PayloadAction<RefreshTokenOutput>) {
+    refresh(state, action: PayloadAction<UserRefreshToken>) {
+      state.isLogged = true;
+    },
+    refreshSuccess(state, action: PayloadAction<RefreshTokenOutput>) {
       state.isLogged = true;
       state.reToken = action.payload;
     },
