@@ -53,7 +53,7 @@ const UserEditFormComponent = (props: any) => {
   const onFinishFailed = () => {};
 
   const clickBack = () => {
-    navigate("/admin/question-manage");
+    navigate("/admin/user-manage");
   };
   return (
     <div style={{ padding: "0px 20px" }}>
