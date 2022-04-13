@@ -16,7 +16,7 @@ import { UserRefreshToken } from "../../models/User";
 import { fork } from "child_process";
 import { useNavigate } from "react-router-dom";
 
-function* hanleLogin(action: PayloadAction<UserLogin>) {
+export function* hanleLogin(action: PayloadAction<UserLogin>) {
   try {
     const res: UserModel = yield call(authApi.login, action.payload);
     yield put(authAction.loginSuccess(res));
