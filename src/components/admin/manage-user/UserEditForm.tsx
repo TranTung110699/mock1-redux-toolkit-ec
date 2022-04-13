@@ -20,10 +20,15 @@ const UserEditFormComponent = (props: any) => {
   const userById = useAppSelector((state) => state.adminUser.getUserById);
 
   const [userDetail, setUserDetail] = useState<ManageUser>();
+  const [enableDetail, setEnableDetail] = useState(true);
 
   useEffect(() => {
     dispatch(adminUserAction.getAdminUserById(id));
     setUserDetail(undefined);
+    setEnableDetail(true);
+    setTimeout(() => {
+      setEnableDetail(false);
+    }, 1500);
   }, [id]);
 
   console.log("abc", userDetail);
@@ -61,7 +66,7 @@ const UserEditFormComponent = (props: any) => {
         <h1>User Detail</h1>
       </Row>
       <Row justify="center">
-        <Button type="primary" onClick={onShowDetail}>
+        <Button type="primary" onClick={onShowDetail} disabled={enableDetail}>
           Show Detail
         </Button>
       </Row>

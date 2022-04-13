@@ -1,8 +1,4 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
-import { log } from "console";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { authAction } from "../features/auth/authSlice";
-import { RefreshTokenOutput } from "../models/User";
 
 function refreshToken(refreshToken: string) {
   return axiosClient
@@ -44,6 +40,45 @@ axiosClient.interceptors.request.use(
 // Add a response interceptor
 axiosClient.interceptors.response.use(
   function (response: AxiosResponse) {
+    //RefreshToken Other way
+    // const expiresAccess = Number(
+    //   new Date(localStorage.getItem("access_expires") as string)
+    // );
+    // const expiresRefresh = Number(
+    //   new Date(localStorage.getItem("refresh_expires") as string)
+    // );
+
+    // const current = Number(new Date());
+
+    // console.log("time", expiresAccess - current);
+
+    // async function refreshMyToken() {
+    //   const originalConfig = response.config;
+    //   console.log("test error: Done");
+    //   try {
+    //     const rs: any = await axiosClient.post("/v1/auth/refresh-tokens", {
+    //       refreshToken: localStorage.getItem("refresh_token"),
+    //     });
+    //     console.log("test data: ", rs);
+    //     localStorage.setItem("access_expires", rs.access.expires);
+    //     localStorage.setItem("access_token", rs.access.token);
+    //     localStorage.setItem("refresh_expires", rs.refresh.expires);
+    //     localStorage.setItem("refresh_token", rs.refresh.token);
+
+    //     return axiosClient(originalConfig);
+    //   } catch (error) {
+    //     return Promise.reject(error);
+    //   }
+    // }
+
+    // function processInput(callback: any) {
+    //   callback();
+    // }
+
+    // setTimeout(() => {
+    //   processInput(refreshMyToken);
+    // }, expiresAccess - current);
+
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     return response.data;
@@ -71,6 +106,7 @@ axiosClient.interceptors.response.use(
         }
       }
     }
+
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
 

@@ -22,10 +22,15 @@ const QuestionFormComponent = (props: any) => {
   );
 
   const [questionDetail, setQuestionDetail] = useState<AdminQuestionOutput>();
+  const [enableDetail, setEnableDetail] = useState(true);
 
   useEffect(() => {
     dispatch(adminQuestionAction.getAdminQuestionById(id));
     setQuestionDetail(undefined);
+    setEnableDetail(true);
+    setTimeout(() => {
+      setEnableDetail(false);
+    }, 1500);
   }, [id]);
 
   console.log("abc", questionDetail);
@@ -66,7 +71,7 @@ const QuestionFormComponent = (props: any) => {
         <h1>Question Detail</h1>
       </Row>
       <Row justify="center">
-        <Button type="primary" onClick={onShowDetail}>
+        <Button type="primary" onClick={onShowDetail} disabled={enableDetail}>
           Show Detail
         </Button>
       </Row>
