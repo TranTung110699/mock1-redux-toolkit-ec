@@ -89,7 +89,7 @@ const QuestionComponent = () => {
     const logoutToken: UserLogout = {
       refreshToken: localStorage.getItem("refresh_token"),
     };
-    dispatch(authAction.signOut(logoutToken));
+    dispatch(authAction.signOut({ logoutToken, navigate }));
     setIsSubmitVisible(false);
 
     Swal.fire({
@@ -98,9 +98,6 @@ const QuestionComponent = () => {
       timerProgressBar: true,
       showConfirmButton: false,
     });
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
   };
 
   return (

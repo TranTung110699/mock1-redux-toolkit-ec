@@ -33,13 +33,18 @@ export function* handleGetAdminQuestionById(action: PayloadAction<string>) {
   } catch (error) {}
 }
 
-export function* hanlePostAdminQuestion(action: PayloadAction<AdminQuestion>) {
+export function* hanlePostAdminQuestion(action: PayloadAction<any>) {
   try {
+    // question, dispatch
     const res: AdminQuestionOutput = yield call(
       adminApi.createQuestion,
-      action.payload
+      action.payload.question
     );
     yield put(adminQuestionAction.postAdminQuestionSuccess(res));
+    action.payload.dispatch(
+      adminQuestionAction.getAdminQuestion({ page: action.payload.page })
+    );
+    action.payload.navigate("/admin/question-manage");
     toast.success("Add Question Complete");
     console.log("Add Question", res);
   } catch (error) {}
@@ -50,23 +55,30 @@ interface patchQuestionType {
   questionId: string;
 }
 
-export function* hanleEditAdminQuestion(
-  action: PayloadAction<patchQuestionType>
-) {
+export function* hanleEditAdminQuestion(action: PayloadAction<any>) {
   try {
+    // formInput,dispatch,page,navigate,
     const res: AdminQuestionOutput = yield call(
       adminApi.editQuestion,
-      action.payload
+      action.payload.formInput
     );
     yield put(adminQuestionAction.patchAdminQuestionSuccess(res));
+    action.payload.dispatch(
+      adminQuestionAction.getAdminQuestion({ page: action.payload.page })
+    );
+    action.payload.navigate("/admin/question-manage");
     toast.success("Edit Question Complete");
     console.log("Edit Question", res);
   } catch (error) {}
 }
 
-export function* hanleDeleteAdminQuestion(action: PayloadAction<string>) {
+export function* hanleDeleteAdminQuestion(action: PayloadAction<any>) {
   try {
-    yield call(adminApi.deleteQuestion, action.payload);
+    // idQuestion, dispatch, myPage
+    yield call(adminApi.deleteQuestion, action.payload.idQuestion);
+    action.payload.dispatch(
+      adminQuestionAction.getAdminQuestion({ page: action.payload.myPage })
+    );
     toast.success("Delete success");
   } catch (error) {}
 }

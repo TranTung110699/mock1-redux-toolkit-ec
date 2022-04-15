@@ -28,7 +28,12 @@ const RegisterComponent = () => {
       email: values.email,
     };
     console.log(formRegister);
-    dispatch(authAction.signUp(formRegister));
+    dispatch(
+      authAction.signUp({
+        formRegister,
+        navigate,
+      })
+    );
 
     Swal.fire({
       html: "Loading",
@@ -36,21 +41,6 @@ const RegisterComponent = () => {
       timerProgressBar: true,
       showConfirmButton: false,
     });
-
-    setTimeout(() => {
-      if (
-        Boolean(localStorage.getItem("access_token")) &&
-        localStorage.getItem("role") === "user"
-      ) {
-        navigate("/user");
-      }
-      if (
-        Boolean(localStorage.getItem("access_token")) &&
-        localStorage.getItem("role") === "admin"
-      ) {
-        navigate("/admin");
-      }
-    }, 2000);
   };
   return (
     <div className="my-form-login">

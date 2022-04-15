@@ -7,16 +7,27 @@ import { adminQuestionAction } from "../../../features/admin/manage-question/adm
 import { AdminQuestion } from "../../../models/Question";
 // import "../admin.scss";
 
-const QuestionAddFormComponent = () => {
+const QuestionAddFormComponent = (props: any) => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const page = props.dataFromParent;
+
+  console.log("crpage", page);
+
   const onFinish = (values: any) => {
     const question: AdminQuestion = {
       ...values,
       correctanswer: values[values.correctanswer],
     };
-    dispatch(adminQuestionAction.postAdminQuestion(question));
+    dispatch(
+      adminQuestionAction.postAdminQuestion({
+        question,
+        dispatch,
+        page,
+        navigate,
+      })
+    );
 
     Swal.fire({
       html: "Creat...",
@@ -25,7 +36,7 @@ const QuestionAddFormComponent = () => {
       showConfirmButton: false,
     });
     setTimeout(() => {
-      dispatch(adminQuestionAction.getAdminQuestion({ page: 1 }));
+      // dispatch(adminQuestionAction.getAdminQuestion({ page: 1 }));
       form.resetFields();
     }, 2000);
   };

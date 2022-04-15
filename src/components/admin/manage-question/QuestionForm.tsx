@@ -16,7 +16,7 @@ const QuestionFormComponent = (props: any) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: any }>();
-
+  const page = props.dataFromParent;
   const questionById = useAppSelector(
     (state) => state.adminQuestion.getQuesById
   );
@@ -34,6 +34,7 @@ const QuestionFormComponent = (props: any) => {
   }, [id]);
 
   console.log("abc", questionDetail);
+  console.log("Test page refresh: ", questionById);
 
   const onShowDetail = () => {
     setQuestionDetail(questionById);
@@ -44,19 +45,20 @@ const QuestionFormComponent = (props: any) => {
       question: values,
       questionId: id,
     };
-    dispatch(adminQuestionAction.patchAdminQuestion(formInput));
+    dispatch(
+      adminQuestionAction.patchAdminQuestion({
+        formInput,
+        dispatch,
+        page,
+        navigate,
+      })
+    );
     Swal.fire({
       html: "Update...",
       timer: 2000,
       timerProgressBar: true,
       showConfirmButton: false,
     });
-    setTimeout(() => {
-      navigate("/admin/question-manage");
-      dispatch(
-        adminQuestionAction.getAdminQuestion({ page: props.dataFromParent })
-      );
-    }, 2000);
   };
 
   const onFinishFailed = () => {};

@@ -44,19 +44,19 @@ const QuestionListComponent = (props: any) => {
     sendPageData();
     window.scrollTo(0, 0);
     navigate("/admin/question-manage/" + idQuestion);
+    // dispatch(adminQuestionAction.getAdminQuestionById(idQuestion));
   };
 
   const clickDelete = (idQuestion: string) => {
-    dispatch(adminQuestionAction.deleteAdminQuestion(idQuestion));
+    dispatch(
+      adminQuestionAction.deleteAdminQuestion({ idQuestion, dispatch, myPage })
+    );
     Swal.fire({
       html: "Deleting...",
       timer: 2000,
       timerProgressBar: true,
       showConfirmButton: false,
     });
-    setTimeout(() => {
-      dispatch(adminQuestionAction.getAdminQuestion({ page: myPage }));
-    }, 2000);
   };
 
   const onChangePage = (pageNumber: number) => {
@@ -67,28 +67,27 @@ const QuestionListComponent = (props: any) => {
   const cancel = () => {};
 
   const clickAddQuestion = () => {
-    navigate("/admin/question-manage");
+    sendPageData();
+    navigate("/admin/question-manage/add");
   };
   return (
     <div>
       {questionList.length > 0 ? (
         <div className="site-card-wrapper">
-          {id ? (
-            <Space align="center" style={{ marginBottom: 16 }}>
-              <Button
-                type="primary"
-                shape="round"
-                icon={<PlusOutlined />}
-                size="large"
-                onClick={clickAddQuestion}
-              >
-                Add Question
-              </Button>
-            </Space>
-          ) : null}
+          <Space align="center" style={{ marginBottom: 16 }}>
+            <Button
+              type="primary"
+              shape="round"
+              icon={<PlusOutlined />}
+              size="large"
+              onClick={clickAddQuestion}
+            >
+              Add Question
+            </Button>
+          </Space>
           <Row gutter={[8, 8]}>
             {questionList.map((question: AdminQuestionOutput, index: any) => (
-              <Col xs={24} sm={24} md={12} lg={12}>
+              <Col xs={24} sm={24} md={12} lg={12} xl={8} xxl={8}>
                 <Card title={question.question} bordered={false}>
                   <div>
                     <b>A. </b>

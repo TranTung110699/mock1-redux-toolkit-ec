@@ -39,6 +39,11 @@ function App() {
             />
 
             <Route
+              path="/admin/question-manage/add"
+              element={<ManageQuestionComponent />}
+            />
+
+            <Route
               path="/admin/user-manage"
               element={<ManageUserComponent />}
             />

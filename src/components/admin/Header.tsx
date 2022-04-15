@@ -27,7 +27,7 @@ const HeaderComponent = () => {
     const logoutToken: UserLogout = {
       refreshToken: localStorage.getItem("refresh_token"),
     };
-    dispatch(authAction.signOut(logoutToken));
+    dispatch(authAction.signOut({ logoutToken, navigate }));
 
     Swal.fire({
       html: "Logout...",
@@ -35,9 +35,6 @@ const HeaderComponent = () => {
       timerProgressBar: true,
       showConfirmButton: false,
     });
-    setTimeout(() => {
-      navigate("/login");
-    }, 2000);
   };
   return (
     <>

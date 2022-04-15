@@ -59,7 +59,7 @@ const adminQuestionSlice = createSlice({
       state.getQuesById = action.payload;
     },
 
-    postAdminQuestion: (state, action: PayloadAction<AdminQuestion>) => {},
+    postAdminQuestion: (state, action: PayloadAction<any>) => {},
     postAdminQuestionSuccess: (
       state,
       action: PayloadAction<AdminQuestionOutput>
@@ -67,7 +67,7 @@ const adminQuestionSlice = createSlice({
       state.postQuestion = action.payload;
     },
 
-    patchAdminQuestion: (state, action: PayloadAction<patchQuestionType>) => {},
+    patchAdminQuestion: (state, action: PayloadAction<any>) => {},
     patchAdminQuestionSuccess: (
       state,
       action: PayloadAction<AdminQuestionOutput>
@@ -75,7 +75,7 @@ const adminQuestionSlice = createSlice({
       state.patchQuestion = action.payload;
     },
 
-    deleteAdminQuestion: (state, action: PayloadAction<string>) => {},
+    deleteAdminQuestion: (state, action: PayloadAction<any>) => {},
   },
 });
 

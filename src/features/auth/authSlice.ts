@@ -35,7 +35,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState: initialState,
   reducers: {
-    login(state, action: PayloadAction<UserLogin>) {
+    login(state, action: PayloadAction<any>) {
       state.isLogging = true;
       console.log("abc");
     },
@@ -51,7 +51,7 @@ const authSlice = createSlice({
       state.isLogged = false;
       state.isLogging = false;
     },
-    signUp(state, action: PayloadAction<UserRegister>) {
+    signUp(state, action: PayloadAction<any>) {
       state.isLogging = true;
     },
     signUpSuccess(state, action: PayloadAction<UserModel>) {
@@ -59,7 +59,7 @@ const authSlice = createSlice({
       state.isLogged = true;
       state.isLogging = false;
     },
-    signOut(state, action: PayloadAction<UserLogout>) {
+    signOut(state, action: PayloadAction<any>) {
       state.isLogging = true;
     },
     signOutSuccess(state) {

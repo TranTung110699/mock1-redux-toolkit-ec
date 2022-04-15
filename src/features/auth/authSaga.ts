@@ -14,11 +14,13 @@ import {
 import { authAction } from "./authSlice";
 import { UserRefreshToken } from "../../models/User";
 import { fork } from "child_process";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate } from "react-router-dom";
 
-export function* hanleLogin(action: PayloadAction<UserLogin>) {
+export function* hanleLogin(action: PayloadAction<any>) {
   try {
-    const res: UserModel = yield call(authApi.login, action.payload);
+    console.log("action.payload", action.payload);
+
+    const res: UserModel = yield call(authApi.login, action.payload.formLogin);
     yield put(authAction.loginSuccess(res));
     toast.success("Login Success");
     localStorage.setItem("access_token", res.tokens.access.token);
@@ -28,14 +30,23 @@ export function* hanleLogin(action: PayloadAction<UserLogin>) {
     localStorage.setItem("current_user", res.user.username);
     localStorage.setItem("role", res.user.role);
     console.log(res);
+    if (res.user.role === "user") {
+      action.payload.navigate("/user");
+    }
+    if (res.user.role === "admin") {
+      action.payload.navigate("/admin");
+    }
   } catch (error) {
     yield put(authAction.loginFaile());
     toast.error("Username or password incorrect");
   }
 }
-export function* handleSignUp(action: PayloadAction<UserRegister>) {
+export function* handleSignUp(action: PayloadAction<any>) {
   try {
-    const res: UserModel = yield call(authApi.signUp, action.payload);
+    const res: UserModel = yield call(
+      authApi.signUp,
+      action.payload.formRegister
+    );
     yield put(authAction.signUpSuccess(res));
     toast.success("Register success");
     localStorage.setItem("access_token", res.tokens.access.token);
@@ -45,6 +56,12 @@ export function* handleSignUp(action: PayloadAction<UserRegister>) {
     localStorage.setItem("current_user", res.user.username);
     localStorage.setItem("role", res.user.role);
     console.log(res);
+    if (res.user.role === "user") {
+      action.payload.navigate("/user");
+    }
+    if (res.user.role === "admin") {
+      action.payload.navigate("/admin");
+    }
   } catch (error) {
     yield put(authAction.loginFaile());
     const err = error as AxiosError;
@@ -69,9 +86,9 @@ export function* handleRefresh(action: PayloadAction<UserRefreshToken>) {
     console.log("refresh test Saga", res);
   } catch (error) {}
 }
-export function* handleLogout(action: PayloadAction<UserLogout>) {
+export function* handleLogout(action: PayloadAction<any>) {
   try {
-    yield call(authApi.logout, action.payload);
+    yield call(authApi.logout, action.payload.logoutToken);
     yield put(authAction.signOutSuccess());
     toast.success("Logout success");
     localStorage.removeItem("access_token");
@@ -80,6 +97,7 @@ export function* handleLogout(action: PayloadAction<UserLogout>) {
     localStorage.removeItem("refresh_expires");
     localStorage.removeItem("current_user");
     localStorage.removeItem("role");
+    action.payload.navigate("/login");
   } catch (error) {}
 }
 

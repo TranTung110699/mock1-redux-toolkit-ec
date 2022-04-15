@@ -28,7 +28,12 @@ export default function LoginComponent(props: LoginPageProps) {
       password: values.password,
     };
     console.log(formLogin);
-    dispatch(authAction.login(formLogin));
+    dispatch(
+      authAction.login({
+        formLogin,
+        navigate,
+      })
+    );
 
     Swal.fire({
       html: "Loading",
@@ -36,21 +41,6 @@ export default function LoginComponent(props: LoginPageProps) {
       timerProgressBar: true,
       showConfirmButton: false,
     });
-
-    setTimeout(() => {
-      if (
-        Boolean(localStorage.getItem("access_token")) &&
-        localStorage.getItem("role") === "user"
-      ) {
-        navigate("/user");
-      }
-      if (
-        Boolean(localStorage.getItem("access_token")) &&
-        localStorage.getItem("role") === "admin"
-      ) {
-        navigate("/admin");
-      }
-    }, 2000);
   };
 
   return (

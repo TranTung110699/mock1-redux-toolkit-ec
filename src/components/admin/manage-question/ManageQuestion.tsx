@@ -20,15 +20,26 @@ const ManageQuestionComponent = () => {
         <b>Manage Question</b>
       </div>
       <Row>
-        <Col span={16}>
+        <Col
+          span={
+            window.location.pathname === "/admin/question-manage/add" || id
+              ? 16
+              : 24
+          }
+        >
           <QuestionListComponent parentCallback={callbackFunction} />
         </Col>
-        <Col span={8}>
-          {id ? (
-            <QuestionFormComponent dataFromParent={message} />
-          ) : (
-            <QuestionAddFormComponent />
-          )}
+        <Col
+          span={
+            window.location.pathname === "/admin/question-manage/add" || id
+              ? 8
+              : 0
+          }
+        >
+          {id ? <QuestionFormComponent dataFromParent={message} /> : null}
+          {window.location.pathname === "/admin/question-manage/add" ? (
+            <QuestionAddFormComponent dataFromParent={message} />
+          ) : null}
         </Col>
       </Row>
     </div>
