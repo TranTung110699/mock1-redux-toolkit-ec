@@ -22,14 +22,16 @@ export function* handleGetAdminQuestion(action: PayloadAction<Page>) {
   } catch (error) {}
 }
 
-export function* handleGetAdminQuestionById(action: PayloadAction<string>) {
+export function* handleGetAdminQuestionById(action: PayloadAction<any>) {
   try {
     const res: AdminQuestionOutput = yield call(
       adminApi.getQuestionAdminById,
-      action.payload
+      action.payload.id
     );
     console.log("questionadminbyid", res);
     yield put(adminQuestionAction.getAdminQuestionByIdSuccess(res));
+    action.payload.setQuestionDetail(res);
+    return res;
   } catch (error) {}
 }
 

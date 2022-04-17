@@ -51,7 +51,7 @@ const adminQuestionSlice = createSlice({
       state.questions = action.payload;
     },
 
-    getAdminQuestionById: (state, action: PayloadAction<string>) => {},
+    getAdminQuestionById: (state, action: PayloadAction<any>) => {},
     getAdminQuestionByIdSuccess: (
       state,
       action: PayloadAction<AdminQuestionOutput>

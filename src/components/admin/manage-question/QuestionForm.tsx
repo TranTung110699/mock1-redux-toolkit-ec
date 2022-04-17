@@ -25,20 +25,22 @@ const QuestionFormComponent = (props: any) => {
   const [enableDetail, setEnableDetail] = useState(true);
 
   useEffect(() => {
-    dispatch(adminQuestionAction.getAdminQuestionById(id));
-    setQuestionDetail(undefined);
-    setEnableDetail(true);
-    setTimeout(() => {
-      setEnableDetail(false);
-    }, 1500);
+    dispatch(
+      adminQuestionAction.getAdminQuestionById({ id, setQuestionDetail })
+    );
+    // setQuestionDetail(undefined);
+    // setEnableDetail(true);
+    // setTimeout(() => {
+    //   setEnableDetail(false);
+    // }, 1500);
   }, [id]);
 
   console.log("abc", questionDetail);
   console.log("Test page refresh: ", questionById);
 
-  const onShowDetail = () => {
-    setQuestionDetail(questionById);
-  };
+  // const onShowDetail = () => {
+  //   navigate("/admin/question-manage");
+  // };
 
   const onFinish = (values: AdminQuestion) => {
     const formInput: patchQuestionType = {
@@ -72,11 +74,11 @@ const QuestionFormComponent = (props: any) => {
       <Row justify="center">
         <h1>Question Detail</h1>
       </Row>
-      <Row justify="center">
-        <Button type="primary" onClick={onShowDetail} disabled={enableDetail}>
+      {/* <Row justify="center">
+        <Button type="primary" onClick={onShowDetail}>
           Show Detail
         </Button>
-      </Row>
+      </Row> */}
       {questionDetail ? (
         <Form
           name="basic"
