@@ -26,15 +26,7 @@ const initialState: questionType = {
     totalPages: 1,
     totalResults: 0,
   },
-  getQuesById: {
-    question: "",
-    answer1: "",
-    answer2: "",
-    answer3: "",
-    answer4: "",
-    correctanswer: "",
-    id: "",
-  },
+  getQuesById: undefined,
   postQuestion: undefined,
   patchQuestion: undefined,
 };
@@ -51,7 +43,7 @@ const adminQuestionSlice = createSlice({
       state.questions = action.payload;
     },
 
-    getAdminQuestionById: (state, action: PayloadAction<any>) => {},
+    getAdminQuestionById: (state, action: PayloadAction<string>) => {},
     getAdminQuestionByIdSuccess: (
       state,
       action: PayloadAction<AdminQuestionOutput>

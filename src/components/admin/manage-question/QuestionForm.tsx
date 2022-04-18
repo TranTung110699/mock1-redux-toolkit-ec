@@ -7,6 +7,8 @@ import { adminQuestionAction } from "../../../features/admin/manage-question/adm
 // import "../admin.scss";
 import { ManageUser } from "../../../models/User";
 import { AdminQuestion, AdminQuestionOutput } from "../../../models/Question";
+import { RootState } from "../../../app/store";
+import { useSelector } from "react-redux";
 interface patchQuestionType {
   question: AdminQuestion;
   questionId: string;
@@ -18,22 +20,20 @@ const QuestionFormComponent = (props: any) => {
   const { id } = useParams<{ id: any }>();
   const page = props.dataFromParent;
   const questionById = useAppSelector(
-    (state) => state.adminQuestion.getQuesById
+    (state: RootState) => state.adminQuestion.getQuesById
   );
 
   const [questionDetail, setQuestionDetail] = useState<AdminQuestionOutput>();
   const [enableDetail, setEnableDetail] = useState(true);
 
   useEffect(() => {
-    dispatch(
-      adminQuestionAction.getAdminQuestionById({ id, setQuestionDetail })
-    );
+    dispatch(adminQuestionAction.getAdminQuestionById(id));
     // setQuestionDetail(undefined);
     // setEnableDetail(true);
     // setTimeout(() => {
     //   setEnableDetail(false);
     // }, 1500);
-  }, [id]);
+  }, []);
 
   console.log("abc", questionDetail);
   console.log("Test page refresh: ", questionById);
@@ -79,7 +79,7 @@ const QuestionFormComponent = (props: any) => {
           Show Detail
         </Button>
       </Row> */}
-      {questionDetail ? (
+      {questionById && questionById.id === id ? (
         <Form
           name="basic"
           labelCol={{
@@ -89,12 +89,12 @@ const QuestionFormComponent = (props: any) => {
             span: 15,
           }}
           initialValues={{
-            question: questionDetail.question,
-            answer1: questionDetail.answer1,
-            answer2: questionDetail.answer2,
-            answer3: questionDetail.answer3,
-            answer4: questionDetail.answer4,
-            correctanswer: questionDetail.correctanswer,
+            question: questionById.question,
+            answer1: questionById.answer1,
+            answer2: questionById.answer2,
+            answer3: questionById.answer3,
+            answer4: questionById.answer4,
+            correctanswer: questionById.correctanswer,
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
@@ -171,13 +171,13 @@ const QuestionFormComponent = (props: any) => {
             rules={[{ required: true, message: "Please pick an answer!" }]}
           >
             <Radio.Group>
-              <Radio value={questionDetail.answer1}>Answer1</Radio>
+              <Radio value={questionById.answer1}>Answer1</Radio>
               <br />
-              <Radio value={questionDetail.answer2}>Answer2</Radio>
+              <Radio value={questionById.answer2}>Answer2</Radio>
               <br />
-              <Radio value={questionDetail.answer3}>Answer3</Radio>
+              <Radio value={questionById.answer3}>Answer3</Radio>
               <br />
-              <Radio value={questionDetail.answer4}>Answer4</Radio>
+              <Radio value={questionById.answer4}>Answer4</Radio>
             </Radio.Group>
           </Form.Item>
 
